@@ -39,6 +39,7 @@ For the efficiency reasons, first only a section of the frame is considered for 
 
 #### Show some examples of test images to demonstrate how your pipeline is working. How did you optimize the performance of your classifier?
 The result of the find car function can be seen below:
+
 ![alt text][image2]
 Since the find_cars function returns redundant bounding boxes, a heatmap approach is used. First an empty matrix is created with the same size of the image. Then for each bounding box area, +1 is added. The total image is thresholded to remove some of the false positives. The thresholded heatmap is then labeled with the label function from scikit. Some of the examples of an heatmap is below:
 
