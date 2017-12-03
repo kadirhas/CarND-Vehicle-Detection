@@ -41,14 +41,17 @@ For the efficiency reasons, first only a section of the frame is considered for 
 The result of the find car function can be seen below:
 ![alt text][image2]
 Since the find_cars function returns redundant bounding boxes, a heatmap approach is used. First an empty matrix is created with the same size of the image. Then for each bounding box area, +1 is added. The total image is thresholded to remove some of the false positives. The thresholded heatmap is then labeled with the label function from scikit. Some of the examples of an heatmap is below:
+
 ![alt text][image3]
 ![alt text][image4]
+
 To avoid false positives, hard negative mining is also done for bright parts of the video such as trees. There are about 20 additional non vehicle image for hard negative mining. 
 To avoid false negatives, several scales are used on the same image, and all of their results are added up before the heatmap process. This created more redundant bounding boxes, which helps the vehicle images to surpass the threshold.
 
 # Video Implementation
 #### Provide a link to your final video output. Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 The result of the project is [here.](./output_images/project_result.mp4)
+Another result with no false negatives, but includes one false positive is also added [here.](./output_images/project_resultv2_with_false_positive.mp4)
 
 #### Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 Additional to the vehicle detections on images, for the video two heatmap thresholds are used. For each frame, after the heatmap is thresholded with a low number, it is kept in memory to find consistent detections. Then, another heatmap threshold is used on the sum of the past heatmaps to remove false positives. The first threshold helps to remove the clutter from the memory, and the second threshold helps to remove false positives, even if they are consistent but not stable. The memory also stabilizes the bounding boxes and prevent wobbling boxes. This is implemented under the function process_image. The thresholds are tuned via trial and error. Some failing parts are also screenshotted and tested alone as an image. 
